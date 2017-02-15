@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 """
-See `serverify-pip -h`
+Run `serverify-pip -h` for help.
 """
 import argparse
 import logging
 import os
+import sys
+
 import pip.index
 import pip.req
 from pip._vendor.packaging.requirements import Requirement
@@ -39,6 +41,7 @@ def serverify(download_to, *req_files):
                 assert isinstance(r.req, Requirement), r.req.__class__
                 s = r.req
             print(s)
+            sys.stdout.flush()
 
 
 def main():
