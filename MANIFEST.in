@@ -1,0 +1,1 @@
+include *.md *.rst *.txt LICENSE tox.ini .travis.yml .coveragerc conftest.py tests.py
