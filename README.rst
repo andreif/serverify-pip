@@ -33,8 +33,33 @@ Example
 
 .. code:: sh
 
+    $ cat ./requirements.txt
+    -e git+https://github.com/django/django.git@master#egg=Django
+    psycopg2==2.6.2
+
+    $ cat ./requirements_server.txt
+    -r requirements.txt
+    gunicorn==19.6.0
+
+    $ cat ./requirements_test.txt
+    flake8==3.3.0
+
     $ serverify-pip \
         --download-to=./__server__/ \
+        ./requirements_server.txt \
         ./requirements_test.txt \
-        ./requirements_extra.txt \
         > ./__server__/requirements.txt
+
+    $ ls -l ./__server__
+    total 2
+    drwxr-xr-x  27 andrei  staff   918 Feb 13 13:37 django
+    -rw-r--r--   1 andrei  staff    66 Feb 13 13:37 requirements.txt
+
+    $ cat ./__server__/requirements.txt
+    __server__/django/
+    psycopg2==2.6.2
+    gunicorn==19.6.0
+    flake8==3.3.0
+
+    # Now copy __server__ directory to your server/image and then run
+    $ pip install -r ./__server__/requirements.txt
