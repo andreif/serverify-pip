@@ -39,8 +39,11 @@ def serverify(download_to, *req_files):
                 ir.update_editable(obtain=False)
             else:
                 assert isinstance(r.req, Requirement), r.req.__class__
-                s = r.req
-            print(s)
+                s = '%-30s' % str(r.req)
+                for hash_type, hashes in r.options.get('hashes', {}).items():
+                    for h in hashes:
+                        s += ' --hash={}:{}'.format(hash_type, h)
+            print(s.strip())
             sys.stdout.flush()
 
 
