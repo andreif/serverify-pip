@@ -15,7 +15,7 @@ Help
 .. code:: sh
 
     $ serverify-pip -h
-    usage: serverify-pip [-h] -d SRC_DIR [--debug]
+    usage: serverify-pip [-h] -o OUTPUT_FILE -d SRC_DIR [--debug]
                          requirements.txt [requirements.txt ...]
 
     Serverify Requirements - export VCS dependencies locally
@@ -25,6 +25,8 @@ Help
 
     optional arguments:
       -h, --help            show this help message and exit
+      -o OUTPUT_FILE, --output-file OUTPUT_FILE
+                            Combined requirements file
       -d SRC_DIR, --download-to SRC_DIR
                             Directory for exporting source files
       --debug               Sets logging level to DEBUG
@@ -45,10 +47,10 @@ Example
     flake8==3.3.0
 
     $ serverify-pip \
+        --output-file=./__server__/requirements.txt \
         --download-to=./__server__/ \
         ./requirements_server.txt \
-        ./requirements_test.txt \
-        > ./__server__/requirements.txt
+        ./requirements_test.txt
 
     $ ls -l ./__server__
     total 2
