@@ -11,7 +11,7 @@ import pip.index
 import pip.req
 from pip._vendor.packaging.requirements import Requirement
 
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 
 parser = argparse.ArgumentParser(
     description='Serverify Requirements - export VCS dependencies locally')
