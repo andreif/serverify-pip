@@ -21,6 +21,7 @@ build:
 .PHONY: release  # runs clean, build, and then pushes to pypi
 release: clean build
 	echo && echo && echo _____________________ \
-	&& echo Check version: $(shell grep version serverify.py) vs $(shell curl -s https://pypi.python.org/pypi/serverify-pip/json | grep '"version"' | xargs)
+	&& echo Check version: $(shell grep -e '^__version__' serverify.py) vs \
+	$(shell curl -s https://pypi.org/pypi/serverify-pip/json | python -m json.tool | grep '"version"' | xargs)
 	@read -p "Release? [yN]: " -n 1 -r; \
 	if [ "$$REPLY" == "y" ]; then echo && twine upload -s dist/*; else echo "Aborted."; fi
