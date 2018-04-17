@@ -1,0 +1,3 @@
+abc==1.2.3 --hash=sha256:123
+
+git+https://github.com/andreif/serverify-pip@master#egg=serverify-pip

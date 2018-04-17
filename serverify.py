@@ -49,9 +49,11 @@ def serverify(output_path, download_to, req_files):
 
 def requirement_line(r, download_to, abs_download_to):
     if isinstance(r.link, Link):
+        req = r.req if pip_version > (10,) else r
         ir = InstallRequirement(
-            req=r, link=r.link, comes_from=None,
+            req=req, link=r.link, comes_from=None,
             markers=True, editable=True)
+        assert r.name, "Package name not provided for %s" % r.link
         s = '{}/{}/'.format(download_to, ir.name.lower())
         ir.source_dir = '{}/{}'.format(abs_download_to, ir.name.lower())
         ir.update_editable(obtain=False)

@@ -5,13 +5,10 @@ import serverify
 class Tests(unittest.TestCase):
 
     def test_main(self):
-        with open('/tmp/serverify-requirements.txt', 'w+') as fp:
-            fp.write('abc==1.2.3 --hash=sha256:123\n')
-
         args = serverify.parser.parse_args([
             '-o', '/tmp/serverify-output.txt',
             '-d', '/tmp/serverify-download',
-            '/tmp/serverify-requirements.txt',
+            'test.txt',
         ])
         serverify.main(args=args)
 
@@ -19,6 +16,8 @@ class Tests(unittest.TestCase):
             out = fp.read()
 
         self.assertTrue(out.startswith('abc==1.2.3'))
+        self.assertTrue(out.endswith(
+            '/tmp/serverify-download/serverify-pip/\n'))
 
 
 if __name__ == '__main__':
