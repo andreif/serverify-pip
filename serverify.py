@@ -64,7 +64,10 @@ def requirement_line(r, download_to, abs_download_to):
     return s.strip()
 
 
-def main(args):
+def main(args=None):
+    if not args:
+        args = parser.parse_args()
+
     logging.basicConfig(level=logging.DEBUG if args.debug else logging.ERROR)
 
     serverify(output_path=args.output_file, download_to=args.download_to,
@@ -72,4 +75,4 @@ def main(args):
 
 
 if __name__ == '__main__':
-    main(args=parser.parse_args())
+    main()
