@@ -7,9 +7,17 @@ import logging
 import os
 import sys
 
-import pip.index
-import pip.req
+import pip
+pip_version = tuple(int(x) if x.isdigit() else x
+                    for x in pip.__version__.split('.'))
+
 from pip._vendor.packaging.requirements import Requirement
+if pip_version < (10,):
+    from pip.index import Link
+    from pip.req import parse_requirements, InstallRequirement
+else:
+    from pip._internal.index import Link
+    from pip._internal.req import parse_requirements, InstallRequirement
 
 __version__ = '1.0.3'
 
@@ -32,7 +40,7 @@ def serverify(output_path, download_to, req_files):
 
     with open(output_path, 'w+') as fp:
         for req_file in req_files:
-            for r in pip.req.parse_requirements(req_file, session=True):
+            for r in parse_requirements(req_file, session=True):
                 line = requirement_line(r, download_to, abs_download_to)
                 print(line)
                 sys.stdout.flush()
@@ -40,8 +48,8 @@ def serverify(output_path, download_to, req_files):
 
 
 def requirement_line(r, download_to, abs_download_to):
-    if isinstance(r.link, pip.index.Link):
-        ir = pip.req.InstallRequirement(
+    if isinstance(r.link, Link):
+        ir = InstallRequirement(
             req=r, link=r.link, comes_from=None,
             markers=True, editable=True)
         s = '{}/{}/'.format(download_to, ir.name.lower())
@@ -56,9 +64,7 @@ def requirement_line(r, download_to, abs_download_to):
     return s.strip()
 
 
-def main():
-    args = parser.parse_args()
-
+def main(args):
     logging.basicConfig(level=logging.DEBUG if args.debug else logging.ERROR)
 
     serverify(output_path=args.output_file, download_to=args.download_to,
@@ -66,4 +72,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    main(args=parser.parse_args())
