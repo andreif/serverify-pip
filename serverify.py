@@ -19,7 +19,7 @@ else:
     from pip._internal.index import Link
     from pip._internal.req import parse_requirements, InstallRequirement
 
-__version__ = '1.0.4'
+__version__ = '1.0.5'
 
 parser = argparse.ArgumentParser(
     description='Serverify Requirements - export VCS dependencies locally')
